@@ -14,7 +14,7 @@ import ContactForm from "./components/ContactForm";
 import EventHandling from "./components/EventHandling";
 import ZodForm from "./components/ZodForm";
 import CounterReducer from "./components/CounterReducer";
-import UseEffect from "./components/UseEffect";
+import UseEffect from "./components/Product";
 
 const App = () => {
   const user: Info = {

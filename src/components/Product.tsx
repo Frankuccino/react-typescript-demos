@@ -14,7 +14,7 @@ type Product = {
   images: string[];
 };
 
-const UseEffect = () => {
+const Product = () => {
   const [data, setData] = useState<Product | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -101,4 +101,4 @@ const UseEffect = () => {
   );
 };
 
-export default UseEffect;
+export default Product;
