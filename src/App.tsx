@@ -8,6 +8,10 @@ import type { AdminInfoList, Info } from "./types";
 import UserInfo from "./components/UserInfo";
 import UserProfile from "./components/UserProfile";
 import TodoList from "./components/TodoList";
+import Form from "./components/Form";
+import FocusInput from "./components/FocusInput";
+import ContactForm from "./components/ContactForm";
+import EventHandling from "./components/EventHandling";
 
 const App = () => {
   const user: Info = {
@@ -26,17 +30,28 @@ const App = () => {
 
   return (
     <div>
+      <Counter />
+
+      <EventHandling />
+      <ContactForm />
+      <FocusInput />
+
+      <Form />
+
       <TodoList />
-      <br />
+
       <UserInfo user={user} />
       <AdminInfo admin={admin} />
       <Counter />
+
       <UserProfile />
       <User name="frank" age={23} isStudent={true} />
       <Children>
         <h1>Hello I'm passing a children and it uses the ReactNode type</h1>
       </Children>
+
       <OldPropType name="angelo" age={23} isStudent={false} />
+
       <Button
         label="Click me i'm available"
         onClick={() => alert("Button Clicked!")}
