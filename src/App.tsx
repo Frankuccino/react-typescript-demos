@@ -12,6 +12,9 @@ import Form from "./components/Form";
 import FocusInput from "./components/FocusInput";
 import ContactForm from "./components/ContactForm";
 import EventHandling from "./components/EventHandling";
+import ZodForm from "./components/ZodForm";
+import CounterReducer from "./components/CounterReducer";
+import UseEffect from "./components/UseEffect";
 
 const App = () => {
   const user: Info = {
@@ -30,6 +33,12 @@ const App = () => {
 
   return (
     <div>
+      <UseEffect />
+
+      <CounterReducer />
+
+      <ZodForm />
+
       <Counter />
 
       <EventHandling />
