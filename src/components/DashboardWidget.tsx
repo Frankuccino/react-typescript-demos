@@ -1,90 +1,48 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useTimer } from "../advance/useTimer";
+import { useAdvice } from "../advance/useAdvice";
+import { Button } from "../advance/Button";
+// Import your hooks and button here
 
-const DashboardWidget = () => {
-  // 1. We wrap everything in a 'Parent' state.
-  // If 'isAlive' is false, the Widget is deleted from memory.
-  const [isAlive, setIsAlive] = useState(true);
+// 1. THE WIDGET (The "Child")
+// This component holds the logic. When this component is removed,
+// the hooks inside it (useTimer, useAdvice) ARE KILLED.
+const ActualWidget = () => {
+  const seconds = useTimer(true); // Always true because if this renders, it's active
+  const { advice } = useAdvice();
+
+  const isLoading = !advice;
 
   return (
-    <div style={{ padding: "40px", fontFamily: "sans-serif" }}>
-      <h1>useEffect Sprint</h1>
-
-      {isAlive ? (
-        <ActualWidget killMe={() => setIsAlive(false)} />
+    <div style={{ border: "2px solid blue", padding: "20px" }}>
+      <p>Timer: {seconds}s</p>
+      {isLoading ? (
+        <p style={{ color: "#64748b" }}>Fetching wisdom...</p>
       ) : (
-        <div>
-          <p>🛑 Widget is Dead. Memory is clear.</p>
-          <button onClick={() => setIsAlive(true)}>REBORN (Reset Logic)</button>
-        </div>
+        <p style={{ fontWeight: "500" }}>"{advice}"</p>
       )}
     </div>
   );
 };
 
-// 2. This is the component that holds the Timer and the Fetch
-const ActualWidget = ({ killMe }: { killMe: () => void }) => {
-  const [seconds, setSeconds] = useState(0);
-  const [advice, setAdvice] = useState("");
-
-  // TIMER EFFECT
-  useEffect(() => {
-    console.log("🟢 Timer Started");
-    const interval = setInterval(() => {
-      setSeconds((s) => s + 1);
-    }, 1000);
-
-    return () => {
-      console.log("🔴 Timer Cleaned Up");
-      clearInterval(interval);
-    };
-  }, []);
-
-  // FETCH EFFECT
-  useEffect(() => {
-    const controller = new AbortController();
-
-    fetch(`https://api.adviceslip.com/advice`, {
-      signal: controller.signal,
-    })
-      .then((res) => res.json())
-      .then((data) => setAdvice(data.slip.advice))
-      .catch((err) => {
-        if (err.name !== "AbortError") console.error(err);
-      });
-
-    return () => {
-      console.log("🔴 Fetch Aborted");
-      controller.abort();
-    };
-  }, []);
+// 2. THE DASHBOARD (The "Parent")
+const DashboardWidget = () => {
+  const [showWidget, setShowWidget] = useState(true);
 
   return (
-    <div
-      style={{
-        border: "2px solid blue",
-        padding: "20px",
-        borderRadius: "10px",
-      }}
-    >
-      <h2>I am Alive!</h2>
-      <p>
-        Timer: <strong>{seconds}s</strong>
-      </p>
-      <p>
-        Advice: <em>{advice || "Loading..."}</em>
-      </p>
-
-      <button
-        onClick={killMe}
-        style={{
-          background: "red",
-          color: "white",
-          padding: "10px",
-          cursor: "pointer",
-        }}
-      >
-        KILL WIDGET
-      </button>
+    <div style={{ padding: "40px" }}>
+      {showWidget ? (
+        <>
+          <ActualWidget />
+          <Button variant="danger" onClick={() => setShowWidget(false)}>
+            KILL WIDGET
+          </Button>
+        </>
+      ) : (
+        <Button onClick={() => setShowWidget(true)}>
+          REBORN (Reset Everything)
+        </Button>
+      )}
     </div>
   );
 };
