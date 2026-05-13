@@ -16,6 +16,7 @@ import ZodForm from "./components/ZodForm";
 import CounterReducer from "./components/CounterReducer";
 import UseEffect from "./components/Product";
 import UserList from "./components/UserList";
+import DashboardWidget from "./components/DashboardWidget";
 
 const App = () => {
   const user: Info = {
@@ -34,6 +35,8 @@ const App = () => {
 
   return (
     <div>
+      <DashboardWidget />
+
       <UserList />
 
       <UseEffect />
